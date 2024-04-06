@@ -38,6 +38,10 @@ public:
     {
         neighbors[input].push_back(dest);
     }
+    static void make_finale(string name)
+    {
+        State::states[name]->final_state = true;
+    }
 private:
     map <char , vector <State*>> neighbors;
 
