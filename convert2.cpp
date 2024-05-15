@@ -6,7 +6,6 @@
 
 using namespace std;
 
-// Function to calculate epsilon closure of a state in NFA
 set<string> epsilonClosure(const string& state, const map<pair<string, char>, set<string>>& nfaTransitions) {
     set<string> closure;
     queue<string> q;
@@ -28,7 +27,6 @@ set<string> epsilonClosure(const string& state, const map<pair<string, char>, se
     return closure;
 }
 
-// Function to move from a set of states in NFA on a given input symbol
 set<string> move(const set<string>& states, char symbol, const map<pair<string, char>, set<string>>& nfaTransitions) {
     set<string> result;
     for (const string& state : states) {
@@ -42,12 +40,11 @@ set<string> move(const set<string>& states, char symbol, const map<pair<string, 
     return result;
 }
 
-// Function to convert NFA to DFA
 int nfaToDfa(int nfaStates, const vector<string>& stateNames, int nfaAlphabets, const vector<char>& alphabetNames,
              const set<string>& nfaFinalStates, const map<pair<string, char>, set<string>>& nfaTransitions) {
     set<set<string>> dfaStates;
     map<set<string>, int> stateMap;
-    map<pair<set<string>, char>, set<string>> dfaTransitions; // DFA transitions map
+    map<pair<set<string>, char>, set<string>> dfaTransitions;
     int dfaStatesCount = 0;
 
     set<string> dfaStartState = epsilonClosure(stateNames[0], nfaTransitions);
@@ -71,7 +68,7 @@ int nfaToDfa(int nfaStates, const vector<string>& stateNames, int nfaAlphabets, 
                 stateMap[nextStateClosureSet] = dfaStatesCount++;
                 q.push(nextStateClosureSet);
             }
-            dfaTransitions[{currentState, symbol}] = nextStateClosureSet; // Add transition from currentState to nextStateClosureSet
+            dfaTransitions[{currentState, symbol}] = nextStateClosureSet;
         }
     }
 
@@ -121,7 +118,6 @@ int main() {
     }
 
     int dfaStatesCount = nfaToDfa(nfaStates, stateNames, nfaAlphabets, alphabetNames, nfaFinalStateSet, nfaTransitions);
-
     cout << dfaStatesCount << endl;
 
     return 0;
