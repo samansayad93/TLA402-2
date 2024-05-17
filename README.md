@@ -1,1 +1,1 @@
-# Temporal Logic of Action
+# Theory of Language and Automata
