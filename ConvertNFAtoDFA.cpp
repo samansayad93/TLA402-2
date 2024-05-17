@@ -43,13 +43,12 @@ set<string> move(const set<string>& states, char symbol, const map<pair<string, 
 int nfaToDfa(int nfaStates, const vector<string>& stateNames, int nfaAlphabets, const vector<char>& alphabetNames,
              const set<string>& nfaFinalStates, const map<pair<string, char>, set<string>>& nfaTransitions) {
     set<set<string>> dfaStates;
-    map<set<string>, int> stateMap;
     map<pair<set<string>, char>, set<string>> dfaTransitions;
     int dfaStatesCount = 0;
 
     set<string> dfaStartState = epsilonClosure(stateNames[0], nfaTransitions);
     dfaStates.insert(dfaStartState);
-    stateMap[dfaStartState] = dfaStatesCount++;
+    dfaStatesCount++;
     queue<set<string>> q;
     q.push(dfaStartState);
 
@@ -65,20 +64,10 @@ int nfaToDfa(int nfaStates, const vector<string>& stateNames, int nfaAlphabets, 
             }
             if (dfaStates.find(nextStateClosureSet) == dfaStates.end()) {
                 dfaStates.insert(nextStateClosureSet);
-                stateMap[nextStateClosureSet] = dfaStatesCount++;
+                dfaStatesCount++;
                 q.push(nextStateClosureSet);
             }
             dfaTransitions[{currentState, symbol}] = nextStateClosureSet;
-        }
-    }
-
-    int dfaFinalStatesCount = 0;
-    for (const auto& dfaState : dfaStates) {
-        for (const string& state : dfaState) {
-            if (nfaFinalStates.find(state) != nfaFinalStates.end()) {
-                dfaFinalStatesCount++;
-                break;
-            }
         }
     }
 
